@@ -14,10 +14,9 @@ jobs:
       - name: Build data
         working-directory: m17n-db
         run: |
+          ./bootstrap.sh
           ./get-glibc.sh
           glibc=$(echo glibc-*)
-          ./bootstrap.sh
-          ./configure --with-charmaps=$glibc/localedata/charmaps --prefix=/usr
           make
           DESTDIR=dist make install
           cd dist/usr
