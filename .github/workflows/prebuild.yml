@@ -19,11 +19,15 @@ jobs:
           wget -q https://github.com/fcitx-contrib/m17n-cmake/releases/download/glibc-${{ env.GLIBC_VERSION }}/glibc-${{ env.GLIBC_VERSION }}.tar.gz
           tar xf glibc-${{ env.GLIBC_VERSION }}.tar.gz -C m17n-db glibc-${{ env.GLIBC_VERSION }}/localedata/charmaps
 
+      - name: Install dependencies
+        run: |
+          sudo apt update && sudo apt install -y autopoint gettext
+
       - name: Build data
         working-directory: m17n-db
         run: |
           ./bootstrap.sh
-          ./configure --with-charmaps=glibc/localedata/charmaps --prefix=/usr
+          ./configure --with-charmaps=glibc-${{ env.GLIBC_VERSION }}/localedata/charmaps --prefix=/usr
           make
           DESTDIR=dist make install
           cd dist/usr
