@@ -19,6 +19,7 @@ jobs:
           git apply --directory=m17n-lib patches/m17n-lib.patch
           cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
           cmake --build build
+          DESTDIR=dist cmake --install build
 
       - name: Setup tmate session
         if: ${{ failure() }}
