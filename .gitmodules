@@ -1,0 +1,3 @@
+[submodule "m17n-db"]
+	path = m17n-db
+	url = https://github.com/fcitx-contrib/m17n-db
