@@ -8,8 +8,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: true
 
       - name: Build data
+        working-directory: m17n-db
         run: |
           ./get-glibc.sh
           glibc=$(echo glibc-*)
@@ -18,7 +21,7 @@ jobs:
           make
           DESTDIR=dist make install
           cd dist/usr
-          tar cjf ../../m17n-db.tar.bz2 share
+          tar cjf ../../../m17n-db.tar.bz2 share
 
       - name: Release data
         uses: 'marvinpinto/action-automatic-releases@latest'
