@@ -17,7 +17,7 @@ jobs:
       - name: Download glibc
         run: |
           wget -q https://github.com/fcitx-contrib/m17n-cmake/releases/download/glibc-${{ env.GLIBC_VERSION }}/glibc-${{ env.GLIBC_VERSION }}.tar.gz
-          tar xf glibc-${{ env.GLIBC_VERSION }}.tar.gz m17n-db/glibc/localedata/charmaps
+          tar xf glibc-${{ env.GLIBC_VERSION }}.tar.gz -C m17n-db glibc-${{ env.GLIBC_VERSION }}/localedata/charmaps
 
       - name: Build data
         working-directory: m17n-db
