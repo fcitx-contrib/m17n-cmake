@@ -1,0 +1,35 @@
+name: prebuild
+
+on:
+  workflow_dispatch:
+
+jobs:
+  prebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build data
+        run: |
+          ./get-glibc.sh
+          glibc=$(echo glibc-*)
+          ./bootstrap.sh
+          ./configure --with-charmaps=$glibc/localedata/charmaps --prefix=/usr
+          make
+          DESTDIR=dist make install
+          cd dist/usr
+          tar cjf ../../m17n-db.tar.bz2 share
+
+      - name: Release data
+        uses: 'marvinpinto/action-automatic-releases@latest'
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          automatic_release_tag: latest
+          prerelease: true
+          title: "Nightly Build"
+          files: |
+            m17n-db.tar.bz2
+
+      - name: Setup tmate session
+        if: ${{ failure() }}
+        uses: mxschmitt/action-tmate@v3
