@@ -29,9 +29,11 @@ jobs:
           ./bootstrap.sh
           ./configure --with-charmaps=glibc-${{ env.GLIBC_VERSION }}/localedata/charmaps --prefix=/usr
           make
-          DESTDIR=dist make install
-          cd dist/usr
-          tar cjf ../../../m17n-db.tar.bz2 share
+          DESTDIR=$(pwd)/dist make install
+          cd dist/usr && tar cj \
+            --sort=name --mtime=@0 \
+            --numeric-owner --owner=0 --group=0 --mode=go+u,go-w \
+            -f ../../../m17n-db.tar.bz2 share/m17n
 
       - name: Release data
         uses: 'marvinpinto/action-automatic-releases@latest'
