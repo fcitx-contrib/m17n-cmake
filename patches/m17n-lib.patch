@@ -1,5 +1,5 @@
 diff --git a/src/input.c b/src/input.c
-index 60aa600..deda4c3 100644
+index a36d2fc..138ae42 100644
 --- a/src/input.c
 +++ b/src/input.c
 @@ -1256,6 +1256,7 @@ load_macros (MInputMethodInfo *im_info, MPlist *plist)
