@@ -3,21 +3,22 @@ name: prebuild
 on:
   workflow_dispatch:
 
-env:
-  GLIBC_VERSION: 2.3.2
-
 jobs:
   prebuild:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           submodules: true
 
+      - name: Get glibc version
+        run: |
+          echo "GLIBC_VERSION=$(cat .glibc-version)" >> $GITHUB_ENV
+
       - name: Download glibc
         run: |
-          wget -q https://github.com/fcitx-contrib/m17n-cmake/releases/download/glibc-${{ env.GLIBC_VERSION }}/glibc-${{ env.GLIBC_VERSION }}.tar.gz
-          tar xf glibc-${{ env.GLIBC_VERSION }}.tar.gz -C m17n-db glibc-${{ env.GLIBC_VERSION }}/localedata/charmaps
+          wget -q https://github.com/fcitx-contrib/m17n-cmake/releases/download/glibc-${{ env.GLIBC_VERSION }}/glibc-${{ env.GLIBC_VERSION }}.tar.xz
+          tar xf glibc-${{ env.GLIBC_VERSION }}.tar.xz -C m17n-db glibc-${{ env.GLIBC_VERSION }}/localedata/charmaps
 
       - name: Install dependencies
         run: |
